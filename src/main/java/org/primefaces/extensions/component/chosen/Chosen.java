@@ -26,9 +26,9 @@ import org.primefaces.component.api.Widget;
 		@ResourceDependency(library = "primefaces-extensions", name = "chosen/chosen.widget.js"),
 		@ResourceDependency(library = "primefaces-extensions", name = "chosen/chosen.css") })
 public class Chosen extends HtmlSelectOneMenu implements ClientBehaviorHolder, Widget {
-	public static final String	COMPONENT_FAMILY	= "eu.devexpert.extension.component";
-	private static final String	DEFAULT_RENDERER	= "eu.devexpert.extension.component.chosen.ChosenRenderer";
-	private static final String	OPTIMIZED_PACKAGE	= "eu.devexpert.extension.component.";
+	public static final String	COMPONENT_FAMILY	= "org.primefaces.extensions.component";
+	private static final String	DEFAULT_RENDERER	= "org.primefaces.extensions.component.chosen.ChosenRenderer";
+	private static final String	OPTIMIZED_PACKAGE	= "org.primefaces.extensions.component.";
 	public static final String	STYLE_CLASS			= "chzn-select";
 
 	protected enum PropertyKeys{
@@ -118,7 +118,7 @@ public class Chosen extends HtmlSelectOneMenu implements ClientBehaviorHolder, W
 		final FacesContext context = FacesContext.getCurrentInstance();
 		final String userWidgetVar = (String) getAttributes().get(PropertyKeys.widgetVar.toString());
 
-		if(userWidgetVar != null) {
+		if (userWidgetVar != null) {
 			return userWidgetVar;
 		}
 
@@ -130,19 +130,19 @@ public class Chosen extends HtmlSelectOneMenu implements ClientBehaviorHolder, W
 		getStateHelper().put(property, value);
 
 		List<String> setAttributes = (List<String>) this.getAttributes().get("javax.faces.component.UIComponentBase.attributesThatAreSet");
-		if(setAttributes == null) {
+		if (setAttributes == null) {
 			final String cname = this.getClass().getName();
-			if(cname != null && cname.startsWith(OPTIMIZED_PACKAGE)) {
+			if (cname != null && cname.startsWith(OPTIMIZED_PACKAGE)) {
 				setAttributes = new ArrayList<String>(6);
 				this.getAttributes().put("javax.faces.component.UIComponentBase.attributesThatAreSet", setAttributes);
 			}
 		}
-		if(setAttributes != null && value == null) {
+		if (setAttributes != null && value == null) {
 			final String attributeName = property.toString();
 			final ValueExpression ve = getValueExpression(attributeName);
-			if(ve == null) {
+			if (ve == null) {
 				setAttributes.remove(attributeName);
-			}else if(!setAttributes.contains(attributeName)) {
+			} else if (!setAttributes.contains(attributeName)) {
 				setAttributes.add(attributeName);
 			}
 		}
