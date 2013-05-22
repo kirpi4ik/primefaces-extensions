@@ -20,18 +20,18 @@ import javax.faces.event.FacesEvent;
 import org.primefaces.component.api.Widget;
 import org.primefaces.util.Constants;
 
-@ResourceDependencies({ @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"), @ResourceDependency(library = "primefaces", name = "primefaces.js"), @ResourceDependency(
-																																															library = "primefaces-extensions",
-																																															name = "elfinder/css/elfinder.min.css"), @ResourceDependency(
-																																																															library = "primefaces-extensions",
-																																																															name = "elfinder/css/theme.css"), @ResourceDependency(
-																																																																													library = "primefaces-extensions",
-																																																																													name = "elfinder/js/elfinder.min.js"), @ResourceDependency(
-																																																																																												library = "primefaces-extensions",
-																																																																																												name = "elfinder/js/i18n/elfinder.ru.js"), })
+@ResourceDependencies({ @ResourceDependency(
+	library = "primefaces", name = "jquery/jquery.js"), @ResourceDependency(
+	library = "primefaces", name = "primefaces.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/css/theme.css"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/jquery-ui.min.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/css/jquery-ui.custom.min.css"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/css/elfinder.min.css"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elfinder.min.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/i18n/elfinder.ru.js"), })
 public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorHolder {
 	public static final String				COMPONENT_FAMILY	= "org.primefaces.extensions.component";
-	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.elfinder.ElFinderRenderer";
+	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.ElFinderRenderer";
 	private static final String				OPTIMIZED_PACKAGE	= "org.primefaces.extensions.component.";
 
 	public static final String				EVENT_ENABLE		= "enable";

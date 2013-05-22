@@ -12,6 +12,8 @@ public class ElFinderRenderer extends CoreRenderer {
 
 	@Override
 	public void decode(final FacesContext context, final UIComponent component) {
+		final ElFinder elFinder = (ElFinder) component;
+		System.out.println("TERST " + elFinder.getId());
 		decodeBehaviors(context, component);
 	}
 
@@ -20,6 +22,7 @@ public class ElFinderRenderer extends CoreRenderer {
 		final ResponseWriter writer = context.getResponseWriter();
 		final ElFinder elFinder = (ElFinder) component;
 		final String clientId = elFinder.getClientId(context);
+		System.out.println("Encode: ...");
 		writer.startElement("div", elFinder);
 		writer.writeAttribute("id", clientId, null);
 		writer.endElement("div");
@@ -29,12 +32,12 @@ public class ElFinderRenderer extends CoreRenderer {
 		writer.write("$(function() {");
 		writer.write("$('#" + clientId + "').elfinder({");
 
-		writer.write("url:'/connector'");
+		writer.write("url:'http://elfinder.org/connector'");
 		writer.write(",lang:'ru'");
 
 		encodeClientBehaviors(context, elFinder);
 
-		writer.write("}); });");
+		writer.write("}).elfinder('instance'); });");
 
 		endScript(writer);
 	}
