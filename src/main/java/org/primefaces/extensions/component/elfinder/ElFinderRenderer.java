@@ -20,8 +20,6 @@ public class ElFinderRenderer extends CoreRenderer {
 		final ResponseWriter writer = context.getResponseWriter();
 		final ElFinder elFinder = (ElFinder) component;
 		final String clientId = elFinder.getClientId(context);
-		final String widgetVar = elFinder.resolveWidgetVar();
-
 		writer.startElement("div", elFinder);
 		writer.writeAttribute("id", clientId, null);
 		writer.endElement("div");

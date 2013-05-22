@@ -3635,4 +3635,29 @@
 			<type>org.primefaces.extensions.component.megamenu.MegaMenuModel</type>
 		</attribute>
 	</tag>	
+	<tag>
+		<tag-name>elfinder</tag-name>
+		<component>
+			<component-type>org.primefaces.extensions.component.ElFinder</component-type>
+			<renderer-type>org.primefaces.extensions.component.elfinder.ElFinderRenderer</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Unique identifier of the component in a naming container.]]></description>
+			<name>id</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Unique identifier of the component in a naming container.]]></description>
+			<name>width</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Unique identifier of the component in a naming container.]]></description>
+			<name>height</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>		
+	</tag>		
 </facelet-taglib>

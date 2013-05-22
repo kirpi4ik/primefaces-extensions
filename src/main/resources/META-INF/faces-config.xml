@@ -165,7 +165,12 @@
 		<component-type>org.primefaces.extensions.component.MegaMenu</component-type>
 		<component-class>org.primefaces.extensions.component.megamenu.MegaMenu</component-class>
 	</component>
-	
+
+	<component>
+		<component-type>org.primefaces.extensions.component.ElFinder</component-type>
+		<component-class>org.primefaces.extensions.component.elfinder.ElFinder</component-class>
+	</component>
+		
 	<converter>
 		<converter-id>org.primefaces.extensions.converter.JsonConverter</converter-id>
 		<converter-class>org.primefaces.extensions.converter.JsonConverter</converter-class>
@@ -174,7 +179,7 @@
 		<converter-id>org.primefaces.extensions.converter.LocaleConverter</converter-id>
 		<converter-class>org.primefaces.extensions.converter.LocaleConverter</converter-class>
 	</converter>
-
+ 
 	<render-kit>
 		<renderer>
 			<component-family>org.primefaces.extensions.component</component-family>
@@ -312,7 +317,12 @@
 			<renderer-type>org.primefaces.extensions.component.MegaMenuRenderer</renderer-type>
 			<renderer-class>org.primefaces.extensions.component.megamenu.MegaMenuRenderer</renderer-class>
 		</renderer>						
-		
+		<renderer>
+			<component-family>org.primefaces.extensions.component</component-family>
+			<renderer-type>org.primefaces.extensions.component.ElFinderRenderer</renderer-type>
+			<renderer-class>org.primefaces.extensions.component.elfinder.ElFinderRenderer</renderer-class>
+		</renderer>		
+				
 		<client-behavior-renderer>
 			<client-behavior-renderer-type>org.primefaces.extensions.behavior.JavascriptBehaviorRenderer</client-behavior-renderer-type>
 			<client-behavior-renderer-class>org.primefaces.extensions.behavior.javascript.JavascriptBehaviorRenderer</client-behavior-renderer-class>

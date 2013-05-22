@@ -18,23 +18,20 @@ import javax.faces.event.BehaviorEvent;
 import javax.faces.event.FacesEvent;
 
 import org.primefaces.component.api.Widget;
-import org.primefaces.extensions.event.ResizeEvent;
-import org.primefaces.extensions.event.RotateEvent;
 import org.primefaces.util.Constants;
 
 @ResourceDependencies({ @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"), @ResourceDependency(library = "primefaces", name = "primefaces.js"), @ResourceDependency(
 																																															library = "primefaces-extensions",
 																																															name = "elfinder/css/elfinder.min.css"), @ResourceDependency(
 																																																															library = "primefaces-extensions",
-																																																															name = "elfinder/css/theme.css"),
-
-@ResourceDependency(library = "primefaces-extensions", name = "elfinder/js/elfinder.min.js"), @ResourceDependency(
-																													library = "primefaces-extensions",
-																													name = "elfinder/js/i18n/elfinder.ru.js"), })
+																																																															name = "elfinder/css/theme.css"), @ResourceDependency(
+																																																																													library = "primefaces-extensions",
+																																																																													name = "elfinder/js/elfinder.min.js"), @ResourceDependency(
+																																																																																												library = "primefaces-extensions",
+																																																																																												name = "elfinder/js/i18n/elfinder.ru.js"), })
 public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorHolder {
-	public static final String				COMPONENT_TYPE		= "org.primefaces.extensions.component.ElFinder";
 	public static final String				COMPONENT_FAMILY	= "org.primefaces.extensions.component";
-	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.ElFinderRenderer";
+	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.elfinder.ElFinderRenderer";
 	private static final String				OPTIMIZED_PACKAGE	= "org.primefaces.extensions.component.";
 
 	public static final String				EVENT_ENABLE		= "enable";
@@ -60,7 +57,20 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 	protected enum PropertyKeys {
 		widgetVar,
 		width,
-		height,
+		height;
+		private String	toString;
+
+		PropertyKeys(final String toString) {
+			this.toString = toString;
+		}
+
+		PropertyKeys() {
+		}
+
+		@Override
+		public String toString() {
+			return ((this.toString != null) ? this.toString : super.toString());
+		}
 
 	}
 
@@ -125,13 +135,16 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 			final BehaviorEvent behaviorEvent = (BehaviorEvent) event;
 
 			if (eventName.equals(EVENT_ADD)) {
-//				final double width = Double.parseDouble(params.get(clientId + "_width"));
-//				final double height = Double.parseDouble(params.get(clientId + "_height"));
-//
-//				final ResizeEvent resizeEvent = new ResizeEvent(this, behaviorEvent.getBehavior(), width, height);
-//
-//				super.queueEvent(resizeEvent);
-			} 
+				// final double width = Double.parseDouble(params.get(clientId +
+				// "_width"));
+				// final double height = Double.parseDouble(params.get(clientId
+				// + "_height"));
+				//
+				// final ResizeEvent resizeEvent = new ResizeEvent(this,
+				// behaviorEvent.getBehavior(), width, height);
+				//
+				// super.queueEvent(resizeEvent);
+			}
 		} else {
 			super.queueEvent(event);
 		}
@@ -141,4 +154,19 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 		return clientId.equals(params.get(Constants.PARTIAL_SOURCE_PARAM));
 	}
 
+	public String getWidth() {
+		return (String) getStateHelper().eval(PropertyKeys.width, null);
+	}
+
+	public void setWidth(String width) {
+		setAttribute(PropertyKeys.width, width);
+	}
+
+	public String getHeight() {
+		return (String) getStateHelper().eval(PropertyKeys.height, null);
+	}
+
+	public void setHeight(String width) {
+		setAttribute(PropertyKeys.height, width);
+	}
 }
