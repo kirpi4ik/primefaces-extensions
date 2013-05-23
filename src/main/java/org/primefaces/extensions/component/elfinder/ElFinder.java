@@ -23,12 +23,77 @@ import org.primefaces.util.Constants;
 @ResourceDependencies({ @ResourceDependency(
 	library = "primefaces", name = "jquery/jquery.js"), @ResourceDependency(
 	library = "primefaces", name = "primefaces.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "primefaces-extensions.js"), @ResourceDependency(
 	library = "primefaces-extensions", name = "elfinder/css/theme.css"), @ResourceDependency(
-	library = "primefaces-extensions", name = "elfinder/js/jquery-ui.min.js"), @ResourceDependency(
 	library = "primefaces-extensions", name = "elfinder/css/jquery-ui.custom.min.css"), @ResourceDependency(
 	library = "primefaces-extensions", name = "elfinder/css/elfinder.min.css"), @ResourceDependency(
-	library = "primefaces-extensions", name = "elfinder/js/elfinder.min.js"), @ResourceDependency(
-	library = "primefaces-extensions", name = "elfinder/js/i18n/elfinder.ru.js"), })
+
+	library = "primefaces-extensions", name = "elfinder/js/jquery-ui.min.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.version.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/jquery.elfinder.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.resources.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.options.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.history.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/elFinder.command.js"), @ResourceDependency(
+	// UI
+	library = "primefaces-extensions", name = "elfinder/js/ui/overlay.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/workzone.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/navbar.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/dialog.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/tree.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/cwd.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/toolbar.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/button.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/uploadButton.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/viewbutton.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/searchbutton.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/sortbutton.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/panel.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/contextmenu.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/path.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/stat.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/ui/places.js"), @ResourceDependency(
+	// COmmands
+	library = "primefaces-extensions", name = "elfinder/js/commands/back.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/forward.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/reload.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/up.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/home.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/copy.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/commands/cut.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/paste.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/open.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/rm.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/info.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/duplicate.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/commands/rename.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/help.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/getfile.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/mkdir.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/mkfile.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/upload.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/commands/download.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/edit.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/quicklook.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/quicklook.plugins.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/extract.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/archive.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/commands/search.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/view.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/resize.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/sort.js"), @ResourceDependency(
+	library = "primefaces-extensions", name = "elfinder/js/commands/netmount.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/jquery.dialogelfinder.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/i18n/elfinder.ru.js"), @ResourceDependency(
+
+	library = "primefaces-extensions", name = "elfinder/js/elfinder-ext.js") })
 public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorHolder {
 	public static final String				COMPONENT_FAMILY	= "org.primefaces.extensions.component";
 	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.ElFinderRenderer";

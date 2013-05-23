@@ -22,23 +22,18 @@ public class ElFinderRenderer extends CoreRenderer {
 		final ResponseWriter writer = context.getResponseWriter();
 		final ElFinder elFinder = (ElFinder) component;
 		final String clientId = elFinder.getClientId(context);
+		final String widgetVar = elFinder.resolveWidgetVar();
 		System.out.println("Encode: ...");
 		writer.startElement("div", elFinder);
 		writer.writeAttribute("id", clientId, null);
 		writer.endElement("div");
 
 		startScript(writer, clientId);
-
 		writer.write("$(function() {");
-		writer.write("$('#" + clientId + "').elfinder({");
-
-		writer.write("url:'http://elfinder.org/connector'");
-		writer.write(",lang:'ru'");
-
+		writer.write("PrimeFacesExt.cw('" + ElFinder.class.getSimpleName() + "', '" + widgetVar + "', {");
+		writer.write("id:'" + clientId + "'");
 		encodeClientBehaviors(context, elFinder);
-
-		writer.write("}).elfinder('instance'); });");
-
+		writer.write("}, true);});");
 		endScript(writer);
 	}
 }
