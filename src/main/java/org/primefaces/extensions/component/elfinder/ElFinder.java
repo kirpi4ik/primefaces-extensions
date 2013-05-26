@@ -18,6 +18,7 @@ import javax.faces.event.BehaviorEvent;
 import javax.faces.event.FacesEvent;
 
 import org.primefaces.component.api.Widget;
+import org.primefaces.extensions.component.elfinder.model.FileSystem;
 import org.primefaces.util.Constants;
 
 @ResourceDependencies({ @ResourceDependency(
@@ -122,7 +123,8 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 	protected enum PropertyKeys {
 		widgetVar,
 		width,
-		height;
+		height,
+		value;
 		private String	toString;
 
 		PropertyKeys(final String toString) {
@@ -233,5 +235,13 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 
 	public void setHeight(String width) {
 		setAttribute(PropertyKeys.height, width);
+	}
+
+	public FileSystem getValue() {
+		return (FileSystem) getStateHelper().eval(PropertyKeys.value, null);
+	}
+
+	public void setValue(FileSystem width) {
+		setAttribute(PropertyKeys.value, width);
 	}
 }

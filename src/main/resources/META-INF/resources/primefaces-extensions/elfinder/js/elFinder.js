@@ -827,6 +827,43 @@ window.elFinder = function(node, opts) {
 		return data.error || this.rules[this.rules[cmd] ? cmd : 'defaults'](data);
 	}
 	
+	
+	
+	
+	
+	
+	this.requestajax = function(options) { 
+        var opt = {
+                source: this.id,
+                update: this.id,
+                process: this.id,
+                onsuccess: function(responseXML) {
+                    var xmlDoc = $(responseXML.documentElement);
+                    PrimeFaces.ajax.AjaxUtils.handleResponse.call(this, xmlDoc);
+                    var data = $.parseJSON($(xmlDoc).text().substring(0,$(xmlDoc).text().lastIndexOf('}')+1));
+                    return true;
+                }
+        };
+        
+        
+        
+        var params = new Array();
+        var keys = Object.keys(options.data);
+        for (var i=keys.length; i--;) {
+        	params[i] = { name: keys[i], value: options.data[keys[i]]};
+        }
+        opt.params=params;
+        
+		PrimeFaces.ajax.AjaxRequest(opt);
+	},
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Proccess ajax request.
 	 * Fired events :
@@ -836,6 +873,7 @@ window.elFinder = function(node, opts) {
 	 * @return $.Deferred
 	 */
 	this.request = function(options) { 
+		this.requestajax(options);
 		var self     = this,
 			o        = this.options,
 			dfrd     = $.Deferred(),
