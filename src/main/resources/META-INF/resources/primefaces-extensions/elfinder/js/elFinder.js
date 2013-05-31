@@ -839,16 +839,19 @@ window.elFinder = function(node, opts) {
                 process: this.id,
                 onsuccess: function(responseXML) {
                     var xmlDoc = $(responseXML.documentElement);
+                    if(xmlDoc.context.tagName === 'partial-response'){
                     PrimeFaces.ajax.AjaxUtils.handleResponse.call(this, xmlDoc);
-                    var data = $.parseJSON($(xmlDoc).text().substring(0,$(xmlDoc).text().lastIndexOf('}')+1));
+//                    var data = $.parseJSON($(xmlDoc).text().substring(0,$(xmlDoc).text().lastIndexOf('}')+1));
                     return true;
+                    }
                 }
         };
         
         
         
         var params = new Array();
-        var keys = Object.keys(options.data);
+        
+        var keys = Object.keys((options.data!=null)?options.data:options);
         for (var i=keys.length; i--;) {
         	params[i] = { name: keys[i], value: options.data[keys[i]]};
         }

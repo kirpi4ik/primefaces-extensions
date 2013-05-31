@@ -1,29 +1,19 @@
 package org.primefaces.extensions.component.elfinder.event;
 
 import javax.faces.component.UIComponent;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.FacesListener;
+import javax.faces.component.behavior.Behavior;
 
-public class ElFinderEvent extends FacesEvent {
+public class ElFinderEvent extends javax.faces.event.AjaxBehaviorEvent {
 	private static final long	serialVersionUID	= 1L;
 	private Command				command;
 
-	public ElFinderEvent(UIComponent component, Command command) {
-		super(component);
+	public ElFinderEvent(UIComponent component, Behavior behavior, Command command) {
+		super(component, behavior);
 		this.command = command;
-	}
-
-	@Override
-	public boolean isAppropriateListener(FacesListener fl) {
-		return false;
-	}
-
-	@Override
-	public void processListener(FacesListener fl) {
-		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	public Command getCommand() {
 		return command;
 	}
+
 }

@@ -3654,10 +3654,11 @@
 			<type>java.lang.String</type>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Unique identifier of the component in a naming container.]]></description>
-			<name>height</name>
-			<required>true</required>
-			<type>java.lang.String</type>
+            <description><![CDATA[An actionlistener to process when command is executed.]]>
+            </description>
+            <name>actionListener</name>
+            <type>javax.el.MethodExpression</type>
+            <method-signature>void actionListener()</method-signature>
 		</attribute>		
 	</tag>		
 </facelet-taglib>

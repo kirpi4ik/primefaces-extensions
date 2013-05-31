@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -14,10 +15,15 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.FacesContext;
-import javax.faces.event.BehaviorEvent;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionListener;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.FacesEvent;
+import javax.faces.event.FacesListener;
 
 import org.primefaces.component.api.Widget;
+import org.primefaces.extensions.component.elfinder.event.Command;
+import org.primefaces.extensions.component.elfinder.event.ElFinderEvent;
 import org.primefaces.extensions.component.elfinder.model.FileSystem;
 import org.primefaces.util.Constants;
 
@@ -100,6 +106,7 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 	private static final String				DEFAULT_RENDERER	= "org.primefaces.extensions.component.ElFinderRenderer";
 	private static final String				OPTIMIZED_PACKAGE	= "org.primefaces.extensions.component.";
 
+	public static final String				EVENT_ALL			= "all";
 	public static final String				EVENT_ENABLE		= "enable";
 	public static final String				EVENT_DISABLE		= "disable";
 	public static final String				EVENT_LOAD			= "load";
@@ -118,13 +125,15 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 
 	private static final Collection<String>	EVENT_NAMES			= Collections
 																		.unmodifiableCollection(Arrays
-																				.asList(EVENT_ENABLE, EVENT_ADD, EVENT_CHANGE, EVENT_DBCLICK, EVENT_DISABLE, EVENT_DRAGSTART, EVENT_DRAGSTOP, EVENT_GETFILE, EVENT_LOAD, EVENT_LOCKFILES, EVENT_OPEN, EVENT_RELOAD, EVENT_REMOVE, EVENT_SELECT, EVENT_UNLOCKFILES));
+																				.asList(EVENT_ALL, EVENT_ENABLE, EVENT_ADD, EVENT_CHANGE, EVENT_DBCLICK, EVENT_DISABLE, EVENT_DRAGSTART, EVENT_DRAGSTOP, EVENT_GETFILE, EVENT_LOAD, EVENT_LOCKFILES, EVENT_OPEN, EVENT_RELOAD, EVENT_REMOVE, EVENT_SELECT, EVENT_UNLOCKFILES));
 
 	protected enum PropertyKeys {
 		widgetVar,
 		width,
 		height,
-		value;
+		value,
+		immediate,
+		actionListener;
 		private String	toString;
 
 		PropertyKeys(final String toString) {
@@ -143,6 +152,25 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 
 	public ElFinder() {
 		setRendererType(DEFAULT_RENDERER);
+	}
+
+	@Override
+	public void broadcast(final FacesEvent event) throws AbortProcessingException {
+		super.broadcast(event);
+		for (FacesListener listener : getFacesListeners(ActionListener.class)) {
+			if (event.isAppropriateListener(listener)) {
+				event.processListener(listener);
+			}
+		}
+		if (event instanceof ElFinderEvent) {
+			final FacesContext context = getFacesContext();
+
+			// invoke actionListener
+			final MethodExpression listener = getActionListener();
+			if (listener != null) {
+				listener.invoke(context.getELContext(), new Object[] { ((ElFinderEvent) event) });
+			}
+		}
 	}
 
 	@Override
@@ -195,22 +223,18 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 		final FacesContext context = FacesContext.getCurrentInstance();
 		final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 		final String clientId = getClientId(context);
-
 		if (isRequestSource(clientId, params)) {
-			final String eventName = params.get(Constants.PARTIAL_BEHAVIOR_EVENT_PARAM);
-
-			final BehaviorEvent behaviorEvent = (BehaviorEvent) event;
-
-			if (eventName.equals(EVENT_ADD)) {
-				// final double width = Double.parseDouble(params.get(clientId +
-				// "_width"));
-				// final double height = Double.parseDouble(params.get(clientId
-				// + "_height"));
-				//
-				// final ResizeEvent resizeEvent = new ResizeEvent(this,
-				// behaviorEvent.getBehavior(), width, height);
-				//
-				// super.queueEvent(resizeEvent);
+			String cmd = context.getExternalContext().getRequestParameterMap().get("cmd");
+			if (cmd != null) {
+				if (event instanceof AjaxBehaviorEvent) {
+					final AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
+					ElFinderEvent elfEvent = new ElFinderEvent(this, behaviorEvent.getBehavior(), Command.valueOf(cmd.toUpperCase()));
+					elfEvent.setPhaseId(behaviorEvent.getPhaseId());
+					super.queueEvent(elfEvent);
+				} else if (event instanceof ElFinderAllEvent) {
+					final ElFinderAllEvent elfEvent = (ElFinderAllEvent) event;
+					super.queueEvent(elfEvent);
+				}
 			}
 		} else {
 			super.queueEvent(event);
@@ -244,4 +268,47 @@ public class ElFinder extends UIComponentBase implements Widget, ClientBehaviorH
 	public void setValue(FileSystem width) {
 		setAttribute(PropertyKeys.value, width);
 	}
+
+	public MethodExpression getActionListener() {
+		return (MethodExpression) getStateHelper().get(PropertyKeys.actionListener);
+	}
+
+	public void setActionListener(final MethodExpression actionListener) {
+		getStateHelper().put(PropertyKeys.actionListener, actionListener);
+		handleAttribute("actionListener", actionListener);
+	}
+
+	public boolean isImmediate() {
+		if (getStateHelper().get(PropertyKeys.immediate) != null) {
+			return (Boolean) getStateHelper().get(PropertyKeys.immediate);
+		} else {
+			return false;
+		}
+	}
+
+	public void setImmediate(boolean immediate) {
+		setAttribute(PropertyKeys.immediate, immediate);
+	}
+
+	public void handleAttribute(String name, Object value) {
+		List<String> setAttributes = (List<String>) this.getAttributes().get("javax.faces.component.UIComponentBase.attributesThatAreSet");
+		if (setAttributes == null) {
+			String cname = this.getClass().getName();
+			if (cname != null && cname.startsWith(OPTIMIZED_PACKAGE)) {
+				setAttributes = new ArrayList<String>(6);
+				this.getAttributes().put("javax.faces.component.UIComponentBase.attributesThatAreSet", setAttributes);
+			}
+		}
+		if (setAttributes != null) {
+			if (value == null) {
+				ValueExpression ve = getValueExpression(name);
+				if (ve == null) {
+					setAttributes.remove(name);
+				} else if (!setAttributes.contains(name)) {
+					setAttributes.add(name);
+				}
+			}
+		}
+	}
+
 }

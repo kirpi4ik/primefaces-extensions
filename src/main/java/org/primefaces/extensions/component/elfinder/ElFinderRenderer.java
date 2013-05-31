@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.PhaseId;
 
+import org.primefaces.extensions.component.elfinder.event.Command;
 import org.primefaces.renderkit.CoreRenderer;
 
 public class ElFinderRenderer extends CoreRenderer {
@@ -14,9 +16,21 @@ public class ElFinderRenderer extends CoreRenderer {
 	@Override
 	public void decode(final FacesContext context, final UIComponent component) {
 		final ElFinder elFinder = (ElFinder) component;
-		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
-		System.out.println("TERST " + elFinder.getId() + ", " + params.get("cmd"));
 		decodeBehaviors(context, component);
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+		String command = params.get("cmd");
+
+		if (command != null) {
+			ElFinderAllEvent ee = new ElFinderAllEvent(component, Command.valueOf(command.toUpperCase()));
+			if (elFinder.isImmediate()) {
+				ee.setPhaseId(PhaseId.APPLY_REQUEST_VALUES);
+			} else {
+				ee.setPhaseId(PhaseId.INVOKE_APPLICATION);
+			}
+			elFinder.queueEvent(ee);
+			System.out.println("DECODE: " + elFinder.getId() + ", " + params.get("cmd"));
+		}
+
 	}
 
 	@Override
@@ -37,9 +51,10 @@ public class ElFinderRenderer extends CoreRenderer {
 			encodeClientBehaviors(context, elFinder);
 			writer.write("}, true);});");
 			endScript(writer);
-		}else{
+
+		} else {
 			System.out.println("Encode: ..." + elFinder.getValue().getApi() + ", " + params.get("cmd"));
-			writer.writeText("{ text:'"+elFinder.getValue().getApi()+"'}", null);
+			writer.writeText("{ 'text' :'" + elFinder.getValue().getApi() + "'}", null);
 		}
 	}
 }
